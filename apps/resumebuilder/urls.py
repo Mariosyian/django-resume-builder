@@ -18,17 +18,23 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.views.generic import RedirectView
 
-from ..resume import views as resume_views
-from ..user import views as user_views
+# Import local files from local directory
+from ..resume import views as resume_views  # ../resume/views.py
+from ..user import views as user_views      # ../user/views.py
 
+# Maps '<string>' endpoint to a views.py method that returns
+# the page to be loaded in the website.
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
+    # Empty string = home page
     path(r'', RedirectView.as_view(pattern_name='resume')),
 
+    # ../resume/* imported as resume_views
+    # Read as: In ../resume/views.py call method resume_view()
     path(r'resume/', resume_views.resume_view, name='resume'),
     path(
         r'resume/item/edit/<int:resume_item_id>/',
@@ -41,6 +47,7 @@ urlpatterns = [
         name='resume-item-create'
     ),
 
+    # ../user/* imported as user_views
     path(r'user/', user_views.account_edit_view, name='account-edit'),
     path(
         r'create-account/',

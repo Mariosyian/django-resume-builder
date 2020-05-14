@@ -15,6 +15,13 @@ def resume_view(request):
         .filter(user=request.user)\
         .order_by('-start_date')
 
+    """
+    Instead of sending back raw HTML code, we can send
+    back a render object that takes: the request,
+    the path to the template to display and an optional
+    third argument which is the context [[ data ]] as a
+    dictionary object, same as in Spring.
+    """
     return render(request, 'resume/resume.html', {
         'resume_items': resume_items
     })
