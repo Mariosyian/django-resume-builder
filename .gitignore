@@ -108,3 +108,6 @@ secret_key.txt
 
 # Local database
 db.sqlite3
+
+# Instructions file
+task-requirements.pdf
