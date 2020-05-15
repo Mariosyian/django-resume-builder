@@ -5,16 +5,27 @@ from django.shortcuts import render, redirect
 from datetime import datetime
 from .forms import CreateResumeForm
 from .models import Resume
+from ..resume.models import ResumeItem
 
 @login_required
 def resume_view(request):
     """
-    Handle a request to view a user's resume.
+    Main page with all the users resumes.
     """
     resumes = Resume.objects\
         .filter(user=request.user)\
         .order_by('name')
-
+    
+    resume_items = ResumeItem.objects.all()
+    
+    # Get the number of items of each resume
+    items = []
+    for resume in resumes:
+        for item in resume_items:
+            if item.parent_resume_id == resume.id:
+                items.append(item)
+        resume.num_items = len(items)
+        items = []
     return render(request, 'user_resume/user_resume.html', {
         'resumes': resumes
     })
@@ -58,7 +69,11 @@ def resume_edit_view(request, resume_id):
     except Resume.DoesNotExist:
         raise Http404
     
-    print(resume_item)
+    # Get all resume items of this resume
+    resume_items = ResumeItem.objects\
+        .filter(parent_resume_id=resume_id)\
+        .all()
+        
     template_dict = {}
 
     if request.method == 'POST':
@@ -78,3 +93,25 @@ def resume_edit_view(request, resume_id):
     template_dict['form'] = form
 
     return render(request, 'user_resume/user_resume_edit.html', template_dict)
+
+@login_required
+def resume_info(request, resume_id):
+    """
+    Handle a request to view a resume.
+    :param resume_id: The database ID of the Resume to edit.
+    """
+    try:
+        resume_item = Resume.objects\
+            .filter(user=request.user)\
+            .get(id=resume_id)
+    except Resume.DoesNotExist:
+        raise Http404
+    
+    # Get all resume items of this resume
+    resume_items = ResumeItem.objects\
+        .filter(parent_resume_id=resume_id)\
+        .all()
+        
+    return render(request, 'user_resume/user_resume_view.html', {
+        'resume_items': resume_items
+    })

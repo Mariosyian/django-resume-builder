@@ -38,9 +38,10 @@ def resume_item_create_view(request, resume_id):
         if form.is_valid():
             new_resume_item = form.save(commit=False)
             new_resume_item.user = request.user
+            new_resume_item.parent_resume_id = resume_id
             new_resume_item.save()
 
-            return redirect(resume_item_edit_view, new_resume_item.id)
+            return redirect(resume_item_edit_view, resume_id, new_resume_item.id)
     else:
         form = ResumeItemForm()
 

@@ -59,6 +59,9 @@ Base form template for creating and editing resumes.
                   <button type="submit" class="btn btn-primary">
                     {% block user_resume_submit_button_text %}{% endblock %}
                   </button>
+                  {% if form.name.value %}
+                  <a class="btn btn-success" href=".{{ resume.id }}/item/create">Add New Resume Item</a>
+                  {% endif %}
                   <a class="btn btn-default" href="/resume/">Back</a>
 
                   {% block user_resume_additional_buttons %}{% endblock %}

@@ -1,7 +1,7 @@
 {% extends "base_logged_in.html" %}
 
 {% comment %}
-Main page for viewing a users resumes.
+Page to view users resume and it's items.
 {% endcomment %}
 
 {% block styles %}
@@ -59,14 +59,20 @@ Main page for viewing a users resumes.
       </div>
     </div>
 
-    {% for resume in resumes %}
+    {% for item in resume_items %}
       <section class="resume">
-        <h3><a href="/resume/{{ resume.id }}/">{{ resume.name }}, ({{ resume.num_items }} items)</a></h3>
-        <h4>Created at: {{ resume.date_created }}</h4>
-        <h4>Last modified at: {{ resume.date_modified }}</h4>
+        <h3><a href="/resume/edit/{{ item.parent_resume_id }}/item/edit/{{ item.id }}/">
+            {{ item.title }}</a><h5>{{ item.company }}</h5></h3>
+        <h4>Start Date: {{ item.start_date }}</h4>
+        <h4>End Date:
+            {% if item.end_date %} {{ item.end_date }} {% else %} Present {% endif %}
+        </h4>
+        <h5>Description: {{ item.description }}</h5>
       </section>
     {% endfor %}
 
-    <a class="btn btn-success" href="/resume/create/">Add New Resume</a>
+    <a class="btn btn-success" href="./item/create/">
+        Add New Resume Item</a>
+    <a class="btn btn-default" href="/resume/">Back</a>
   </div>
 {% endblock %}

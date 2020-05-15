@@ -36,18 +36,7 @@ urlpatterns = [
     # Empty string = home page
     path(r'', RedirectView.as_view(pattern_name='user_resume-home')),
     
-    # Resume item endpoints
-    path(
-        r'resume/item/edit/<int:resume_item_id>/',
-        resume_views.resume_item_edit_view,
-        name='resume-item-edit'
-    ),
-    path(
-        r'resume/item/create/',
-        resume_views.resume_item_create_view,
-        name='resume-item-create'
-    ),
-
+    # User Account endpoints
     # ../user/* imported as user_views
     # Read as: In ../user/views.py call method account_edit_view()
     path(r'user/', user_views.account_edit_view, name='account-edit'),
@@ -64,5 +53,22 @@ urlpatterns = [
         r'resume/edit/<int:resume_id>/',
         user_resume_views.resume_edit_view,
         name='user_resume-edit'
+    ),
+    path(
+        r'resume/<int:resume_id>/',
+        user_resume_views.resume_info,
+        name='user_resume-view'
+    ),
+    
+     # Resume item endpoints
+    path(
+        r'resume/<int:resume_id>/item/edit/<int:resume_item_id>/',
+        resume_views.resume_item_edit_view,
+        name='resume-item-edit'
+    ),
+    path(
+        r'resume/<int:resume_id>/item/create/',
+        resume_views.resume_item_create_view,
+        name='resume-item-create'
     )
 ]
