@@ -50,7 +50,7 @@ urlpatterns = [
     path(r'resume/', user_resume_views.resume_view, name="user_resume-home"),
     path(r'resume/create/', user_resume_views.resume_create_view, name="user_resume-create"),
     path(
-        r'resume/edit/<int:resume_id>/',
+        r'resume/<int:resume_id>/edit/',
         user_resume_views.resume_edit_view,
         name='user_resume-edit'
     ),
