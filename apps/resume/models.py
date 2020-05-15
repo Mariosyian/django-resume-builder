@@ -17,16 +17,18 @@ class ResumeItem(models.Model):
 
     description = models.TextField(max_length=2047, blank=True)
     
-    parent_resume_id = models.PositiveIntegerField()
+    parent_resume_id = models.PositiveIntegerField(default=-1)
     
     def __unicode__(self):
-        return "{}: {} at {} ({})".format(self.user.username,
-                                          self.title,
-                                          self.company,
-                                          self.start_date.isoformat())
+        return "{}: ResumeID:{}, {} at {} ({})"\
+            .format(self.user.username,
+                    self.title,
+                    self.company,
+                    self.start_date.isoformat())
         
     def __str__(self):
-        return "{}: {} at {} ({})".format(self.user.username,
-                                          self.title,
-                                          self.company,
-                                          self.start_date.isoformat())
+        return "{}: ResumeID:{}, {} at {} ({})"\
+            .format(self.user.username,
+                    self.title,
+                    self.company,
+                    self.start_date.isoformat())
