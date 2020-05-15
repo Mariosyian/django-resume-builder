@@ -1,5 +1,5 @@
 from django.db import models
-
+from ..user_resume.models import Resume
 
 class ResumeItem(models.Model):
     """
@@ -16,8 +16,16 @@ class ResumeItem(models.Model):
     end_date = models.DateField(null=True, blank=True)
 
     description = models.TextField(max_length=2047, blank=True)
-
+    
+    parent_resume_id = models.PositiveIntegerField()
+    
     def __unicode__(self):
+        return "{}: {} at {} ({})".format(self.user.username,
+                                          self.title,
+                                          self.company,
+                                          self.start_date.isoformat())
+        
+    def __str__(self):
         return "{}: {} at {} ({})".format(self.user.username,
                                           self.title,
                                           self.company,

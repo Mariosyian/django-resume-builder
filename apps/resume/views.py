@@ -4,12 +4,13 @@ from django.shortcuts import render, redirect
 
 from .forms import ResumeItemForm
 from .models import ResumeItem
+from ..user_resume.models import Resume
 
 
 @login_required
 def resume_view(request):
     """
-    Handle a request to view a user's resume.
+    Handle a request to view a user's resume, resume items.
     """
     resume_items = ResumeItem.objects\
         .filter(user=request.user)\
@@ -28,7 +29,7 @@ def resume_view(request):
 
 
 @login_required
-def resume_item_create_view(request):
+def resume_item_create_view(request, resume_id):
     """
     Handle a request to create a new resume item.
     """
@@ -47,13 +48,16 @@ def resume_item_create_view(request):
 
 
 @login_required
-def resume_item_edit_view(request, resume_item_id):
+def resume_item_edit_view(request, resume_id, resume_item_id):
     """
     Handle a request to edit a resume item.
 
     :param resume_item_id: The database ID of the ResumeItem to edit.
     """
     try:
+        resume = Resume.objects\
+            .filter(user=request.user)\
+            .get(id=resume_id)
         resume_item = ResumeItem.objects\
             .filter(user=request.user)\
             .get(id=resume_item_id)
