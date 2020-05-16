@@ -61,8 +61,10 @@ Page to view users resume and it's items.
 
     {% for item in resume_items %}
       <section class="resume">
-        <h3><a href="./item/edit/{{ item.id }}/">
-            {{ item.title }}</a><h5>{{ item.company }}</h5></h3>
+        <h2>
+          <a href="./item/edit/{{ item.id }}/">{{ item.title }}</a>
+          <h3>{{ item.company }}</h3>
+        </h2>
         <h4>Start Date: {{ item.start_date }}</h4>
         <h4>End Date:
             {% if item.end_date %} {{ item.end_date }} {% else %} Present {% endif %}
@@ -72,8 +74,7 @@ Page to view users resume and it's items.
     {% endfor %}
     
     <a class="btn btn-primary" href="./edit">Edit</a>
-    <a class="btn btn-success" href="./item/create/">
-        Add New Resume Item</a>
+    <a class="btn btn-success" href="./item/create/">Add New Resume Item</a>
     <a class="btn btn-default" href="/resume/">Back</a>
   </div>
 {% endblock %}

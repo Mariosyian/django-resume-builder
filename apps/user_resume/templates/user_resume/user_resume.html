@@ -61,7 +61,9 @@ Main page for viewing a users resumes.
 
     {% for resume in resumes %}
       <section class="resume">
-        <h3><a href="/resume/{{ resume.id }}/">{{ resume.name }}, ({{ resume.num_items }} items)</a></h3>
+        <h3>
+          <a href="/resume/{{ resume.id }}/">{{ resume.name }}, ({{ resume.num_items }} items)</a>
+        </h3>
         <h4>Created at: {{ resume.date_created }}</h4>
         <h4>Last modified at: {{ resume.date_modified }}</h4>
       </section>

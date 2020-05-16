@@ -42,7 +42,9 @@ Base form template for creating and editing resumes.
                   <input type="text" name="name" id="id_name"
                         required maxlength="127"
                         class="form-control" aria-label="Title"
-                        {% if form.name.value %}value="{{ form.name.value }}"{% endif %}>
+                        {% if form.name.value %}
+                          value="{{ form.name.value }}"
+                        {% endif %}>
                 </div>
               </div>
             </div>
@@ -60,7 +62,9 @@ Base form template for creating and editing resumes.
                     {% block user_resume_submit_button_text %}{% endblock %}
                   </button>
                   {% if form.name.value %}
-                  <a class="btn btn-success" href=".{{ resume.id }}/item/create">Add New Resume Item</a>
+                  <a class="btn btn-success" href=".{{ resume.id }}/item/create">
+                    Add New Resume Item
+                  </a>
                   {% endif %}
                   <a class="btn btn-default" href="/resume/">Back</a>
 
