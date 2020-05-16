@@ -10,22 +10,20 @@ from ..resume.models import ResumeItem
 @login_required
 def resume_view(request):
     """
-    Main page with all the users resumes.
+    Main page with all the users resumes sorted alphabetically.
     """
     resumes = Resume.objects\
         .filter(user=request.user)\
         .order_by('name')
-    
-    resume_items = ResumeItem.objects.all()
-    
+        
     # Get the number of items of each resume
-    items = []
+    # Current complexity: O(n)
     for resume in resumes:
-        for item in resume_items:
-            if item.parent_resume_id == resume.id:
-                items.append(item)
+        # Query database each time for specific resume
+        items = ResumeItem.objects\
+            .filter(parent_resume_id=resume.id)\
+            .all()
         resume.num_items = len(items)
-        items = []
     return render(request, 'user_resume/user_resume.html', {
         'resumes': resumes
     })
@@ -38,7 +36,6 @@ def resume_create_view(request):
     """
     if request.method == 'POST':
         form = CreateResumeForm(request.POST)
-        print(form)
         if form.is_valid():
             new_resume = form.save(commit=False)
             new_resume.user = request.user
@@ -51,7 +48,9 @@ def resume_create_view(request):
     else:
         form = CreateResumeForm()
 
-    return render(request, 'user_resume/user_resume_create.html', {'form': form})
+    return render(request, 'user_resume/user_resume_create.html', {
+      'form': form
+    })
 
 
 @login_required
@@ -63,32 +62,27 @@ def resume_edit_view(request, resume_id):
     """
     
     try:
-        resume_item = Resume.objects\
+        resume = Resume.objects\
             .filter(user=request.user)\
             .get(id=resume_id)
     except Resume.DoesNotExist:
         raise Http404
-    
-    # Get all resume items of this resume
-    resume_items = ResumeItem.objects\
-        .filter(parent_resume_id=resume_id)\
-        .all()
-        
+      
     template_dict = {}
 
     if request.method == 'POST':
         if 'delete' in request.POST:
-            resume_item.delete()
+            resume.delete()
             return redirect(resume_view)
 
-        form = CreateResumeForm(request.POST, instance=resume_item)
+        form = CreateResumeForm(request.POST, instance=resume)
         if form.is_valid():
             form.save()
-            form = CreateResumeForm(instance=resume_item)
+            form = CreateResumeForm(instance=resume)
             # TODO: Calculate number of items
             template_dict['message'] = 'Resume updated'
     else:
-        form = CreateResumeForm(instance=resume_item)
+        form = CreateResumeForm(instance=resume)
 
     template_dict['form'] = form
 
@@ -98,10 +92,11 @@ def resume_edit_view(request, resume_id):
 def resume_info(request, resume_id):
     """
     Handle a request to view a resume.
-    :param resume_id: The database ID of the Resume to edit.
+    
+    :param resume_id: The database ID of the Resume to view.
     """
     try:
-        resume_item = Resume.objects\
+        resume = Resume.objects\
             .filter(user=request.user)\
             .get(id=resume_id)
     except Resume.DoesNotExist:
