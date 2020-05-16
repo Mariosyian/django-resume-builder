@@ -22,6 +22,7 @@ class ResumeItem(models.Model):
     def __unicode__(self):
         return "{}: ResumeID:{}, {} at {} ({})"\
             .format(self.user.username,
+                    self.parent_resume_id,
                     self.title,
                     self.company,
                     self.start_date.isoformat())
@@ -29,6 +30,7 @@ class ResumeItem(models.Model):
     def __str__(self):
         return "{}: ResumeID:{}, {} at {} ({})"\
             .format(self.user.username,
+                    self.parent_resume_id,
                     self.title,
                     self.company,
                     self.start_date.isoformat())
