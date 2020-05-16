@@ -1,0 +1,25 @@
+For the new Resume model I have decided to create a new database model with
+6 attributes of: id, user, name, date_created, date_modified, num_items.
+
+id - Auto incremented integer to uniquely identify a Resume object in the
+     database.
+user - The User object that the Resume is linked to.
+name - The user provided name to identify a Resume object in the View model.
+date_created - Automatically given a default value of the current time.
+date_modified - Automatically given a default value of the current time
+                once a Resume object has been updated.
+num_items - The number of ResumeItem objects linked to a Resume.
+
+I have structured the HTML templates similar to the ones used for the ResumeItem
+objects. This is to keep a consistent layout of the website through all endpoints.
+The position and layout of the View model has been specified by the instruction sheet
+and was followed to resemble it as closely as possible.
+
+The Resume and ResumeItem records are retrieved using Django's built-in library for
+database queries, returning a dictionary list which is passed as context to various
+templates, depending on the requirements.
+
+In order to retrieve the ResumeItem for each Resume, I had initially used two for
+loops and an if comparison, which gave an overall complexity of O(n^2). I later on
+switched to another database query to which I use the Resume object id to isolate
+the ResumeItem records and retrieve only those.

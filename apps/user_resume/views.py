@@ -107,6 +107,5 @@ def resume_info(request, resume_id):
         .filter(parent_resume_id=resume_id)\
         .all()
         
-    return render(request, 'user_resume/user_resume_view.html', {
-        'resume_items': resume_items
-    })
+    context = {'resume':resume , 'resume_items': resume_items}
+    return render(request, 'user_resume/user_resume_view.html', context)

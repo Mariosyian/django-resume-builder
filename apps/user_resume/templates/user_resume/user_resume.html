@@ -10,7 +10,6 @@ Main page for viewing a users resumes.
   <style>
     div.resume-container {
       margin: 24px auto 0;
-      max-width: 800px;
     }
 
     div.header-center-container {
@@ -52,23 +51,22 @@ Main page for viewing a users resumes.
 
 {% block content %}
   <div class="container content-section resume-container">
-    <div class="header-center-container">
-      <div class="header-container">
-        <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
-        <h3>{{ request.user.email }}</h3>
-      </div>
-    </div>
 
-    {% for resume in resumes %}
-      <section class="resume">
-        <h3>
-          <a href="/resume/{{ resume.id }}/">{{ resume.name }}, ({{ resume.num_items }} items)</a>
-        </h3>
-        <h4>Created at: {{ resume.date_created }}</h4>
-        <h4>Last modified at: {{ resume.date_modified }}</h4>
-      </section>
-    {% endfor %}
+    <h1>Resumes</h1>
 
+    <table class="table table-striped table-hover">
+      <thead></thead>
+      <tbody>
+        {% for resume in resumes %}
+        <tr>
+          <td><h2>{{ resume.name }}</h2></td>
+          <td><h4>{{ resume.num_items }} items</h4></td>
+          <td><a href="/resume/{{ resume.id }}/" class="btn btn-info">View</a></td>
+          <td><a href="/resume/{{ resume.id }}/edit" class="btn btn-primary">Edit</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     <a class="btn btn-success" href="/resume/create/">Add New Resume</a>
   </div>
 {% endblock %}

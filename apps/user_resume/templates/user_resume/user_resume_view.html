@@ -52,6 +52,10 @@ Page to view users resume and it's items.
 
 {% block content %}
   <div class="container content-section resume-container">
+    <h1>Resume: {{ resume.name }}</h1>
+    <h6>Created At: {{ resume.date_created }}, Last Modified: {{ resume.date_modified }}</h6>
+  </div>
+  <div class="container content-section resume-container">
     <div class="header-center-container">
       <div class="header-container">
         <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
@@ -61,19 +65,21 @@ Page to view users resume and it's items.
 
     {% for item in resume_items %}
       <section class="resume">
-        <h2>
-          <a href="./item/edit/{{ item.id }}/">{{ item.title }}</a>
-          <h3>{{ item.company }}</h3>
-        </h2>
-        <h4>Start Date: {{ item.start_date }}</h4>
-        <h4>End Date:
-            {% if item.end_date %} {{ item.end_date }} {% else %} Present {% endif %}
+        <h2>{{ item.title }}</h2>
+        <a href="./item/edit/{{ item.id }}/" class="btn btn-primary">Edit Item</a>
+        <h3>{{ item.company }}</h3>
+        <h4>{{ item.start_date }} - 
+          {% if item.end_date %}
+            {{ item.end_date }}
+          {% else %}
+            Present
+          {% endif %}
         </h4>
         <h5>Description: {{ item.description }}</h5>
       </section>
     {% endfor %}
     
-    <a class="btn btn-primary" href="./edit">Edit</a>
+    <a class="btn btn-primary" href="./edit">Edit Resume</a>
     <a class="btn btn-success" href="./item/create/">Add New Resume Item</a>
     <a class="btn btn-default" href="/resume/">Back</a>
   </div>

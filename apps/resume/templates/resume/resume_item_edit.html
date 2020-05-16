@@ -14,6 +14,11 @@ Template for editing a resume item.
   </style>
 {% endblock %}
 
+{% block content %}
+{{ block.super }}
+<a class="btn btn-success" href="../../../" style="margin-top: 20px;">Back to resume</a>
+{% endblock %}
+
 {% block resume_item_header_text %}Edit resume item{% endblock %}
 
 {% block resume_item_submit_button_text %}Edit{% endblock %}
